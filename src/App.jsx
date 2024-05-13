@@ -1,0 +1,47 @@
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Outlet,
+  Route,
+  RouterProvider,
+} from "react-router-dom";
+import Posts from "./pages/Posts";
+import NotFound from "./pages/NotFound";
+import PostContent from "./pages/PostContent";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import AdminRootLayout from "./pages/admin/AdminRootLayout";
+import AdminPosts from "./pages/admin/AdminPosts";
+import AdminComments from "./pages/admin/AdminComments";
+import AdminUsers from "./pages/admin/AdminUsers";
+
+const queryClient = new QueryClient();
+
+function App() {
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route path="/" element={<Outlet />}>
+        <Route index element={<Posts />} />
+        <Route path="post/:id" element={<PostContent />} />
+        <Route path="admin" element={<AdminRootLayout />}>
+          <Route path=":user/posts" element={<AdminPosts/>} />
+          <Route path=":user/comments" element={<AdminComments/>} />
+          <Route path=":user/users" element={<AdminUsers/>} />
+        </Route>
+
+        <Route path="*" element={<NotFound />} />
+      </Route>
+    )
+  );
+
+  return (
+    <>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+        {/* <ReactQueryDevtools initialIsOpen /> */}
+      </QueryClientProvider>
+    </>
+  );
+}
+
+export default App;
