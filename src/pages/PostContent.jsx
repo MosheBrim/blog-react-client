@@ -3,19 +3,18 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import Comment from "../Components/Comment";
-import aboutBgImage from "../assets/img/about-bg.jpg";
 import Footer from "../Components/Footer";
 
-export default function PostContent() {
+const PostContent = () => {
   const { id } = useParams();
   const queryClient = useQueryClient();
 
   const myDate = (date) => {
     const today = new Date();
-    if (today.getDate() == date.getDate()) {
+    if (today.getDate() === date.getDate()) {
       return "Today";
     }
-    if (today.getDate() - 1 == date.getDate()) {
+    if (today.getDate() - 1 === date.getDate()) {
       return "Yesterday";
     }
     const day = String(date.getDate()).padStart(2, "0");
@@ -23,16 +22,9 @@ export default function PostContent() {
     return day + "/" + month + "/" + date.getFullYear();
   };
 
-  const myText = (text) => {
-    console.log(text);
-    for (let i = 0; i < text.length; i++) {
-      if (text[i] == ".") {
-        text[i] = '.<br>';
-      }
-    }
-    console.log(text);
-    return text;
-  }
+  const formatTextWithBreaks = (text) => {
+    return text.replace(/\./g, ".<br />");
+  };
 
   const [showAddComment, setShowAddComment] = useState(false);
   const [newComment, setNewComment] = useState({
@@ -97,13 +89,16 @@ export default function PostContent() {
 
   return (
     <div className="posts comments container-fluid m-0 p-0">
-      <div className=" posts home-bg">
+      <div className="posts home-bg">
         <div
-          className="home-bg-container-comments  mb-5 text-white"
+          className="mb-5 text-white"
           style={{
-            backgroundImage: `url(${aboutBgImage})`,
-            backgroundSize: "cover",
+            backgroundImage: `url(${post.data.image})`,
+            backgroundSize: "100% 100%",
+            backgroundPosition: "center",
             backgroundAttachment: "scroll",
+            width: "100vw",
+            height: "70vh",
             padding: "5rem",
           }}
         >
@@ -118,11 +113,10 @@ export default function PostContent() {
           </p>
         </div>
         <div className="text-left text-post">
-          <h4 className="post-content post-content-h4 fw-bold">
-
-            {post.data.data}
-            {/* {myText(post.data.data)} */}
-          </h4>
+          <h4
+            className="post-content post-content-h4 fw-bold"
+            dangerouslySetInnerHTML={{ __html: formatTextWithBreaks(post.data.data) }}
+          />
         </div>
       </div>
 
@@ -191,4 +185,6 @@ export default function PostContent() {
       <Footer />
     </div>
   );
-}
+};
+
+export default PostContent;

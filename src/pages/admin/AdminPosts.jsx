@@ -1,9 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
-import { FaEye, FaEyeSlash, FaEdit, FaTrashAlt } from "react-icons/fa";
+import {
+  FaEye,
+  FaEyeSlash,
+  FaEdit,
+  FaTrashAlt,
+  FaImage,
+  FaUpload,
+} from "react-icons/fa";
 
 export default function AdminPosts() {
   const { user } = useParams();
@@ -16,6 +23,7 @@ export default function AdminPosts() {
     description: "",
     data: "",
     published: false,
+    image: "https://res.cloudinary.com/dne5dplkd/image/upload/v1716829443/nrot9cbvcvcrj04zo5i0.jpg",
   });
   const [editPost, setEditPost] = useState({
     id: null,
@@ -24,9 +32,44 @@ export default function AdminPosts() {
     description: "",
     data: "",
     published: false,
+    image: "https://res.cloudinary.com/dne5dplkd/image/upload/v1716829443/nrot9cbvcvcrj04zo5i0.jpg",
   });
 
+  const widgetRef = useRef();
   const queryClient = useQueryClient();
+  const formStateRef = useRef(newPost);
+
+  useEffect(() => {
+    const loadCloudinary = async () => {
+      const cloudinary = await window.cloudinary;
+      if (cloudinary) {
+        widgetRef.current = cloudinary.createUploadWidget(
+          {
+            cloudName: "dne5dplkd",
+            uploadPreset: "nh9q390o",
+          },
+          (error, result) => {
+            if (!error && result && result.event === "success") {
+              const publicId = result.info.public_id;
+              const imageUrl = result.info.secure_url;
+              if (formStateRef.current === newPost) {
+                setNewPost((prevPost) => ({ ...prevPost, image: imageUrl }));
+              } else {
+                setEditPost((prevPost) => ({ ...prevPost, image: imageUrl }));
+              }
+
+              console.log("Uploaded successfully. Public ID:", publicId);
+              console.log("Image URL:", imageUrl);
+            }
+          }
+        );
+      } else {
+        console.error("Cloudinary library not loaded");
+      }
+    };
+
+    loadCloudinary();
+  }, [newPost]);
 
   const posts = useQuery({
     queryKey: ["allPosts"],
@@ -54,6 +97,7 @@ export default function AdminPosts() {
         description: "",
         data: "",
         published: false,
+        image: "https://res.cloudinary.com/dne5dplkd/image/upload/v1716829443/nrot9cbvcvcrj04zo5i0.jpg",
       });
       setShowAddPostModal(false);
     },
@@ -115,7 +159,13 @@ export default function AdminPosts() {
     deletePost.isError ||
     togglePublishStatus.isError
   ) {
-    console.log(posts.error + sendNewPost.error + updatePost.error + deletePost.error + togglePublishStatus.error);
+    console.log(
+      posts.error +
+        sendNewPost.error +
+        updatePost.error +
+        deletePost.error +
+        togglePublishStatus.error
+    );
     return <div className="alert alert-danger">Error</div>;
   }
 
@@ -124,11 +174,17 @@ export default function AdminPosts() {
   };
 
   const handlePostInputChange = (e) => {
-    setNewPost({ ...newPost, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setNewPost((prevPost) => ({ ...prevPost, [name]: value }));
+    formStateRef.current = { ...formStateRef.current, [name]: value };
   };
 
   const handlePublishedChange = () => {
-    setNewPost({ ...newPost, published: !newPost.published });
+    setNewPost((prevPost) => ({ ...prevPost, published: !prevPost.published }));
+    formStateRef.current = {
+      ...formStateRef.current,
+      published: !formStateRef.current.published,
+    };
   };
 
   const handleTogglePublishStatus = (postId) => {
@@ -141,11 +197,17 @@ export default function AdminPosts() {
   };
 
   const handleEditPostInputChange = (e) => {
-    setEditPost({ ...editPost, [e.target.name]: e.target.value });
+    setEditPost((prevPost) => ({
+      ...prevPost,
+      [e.target.name]: e.target.value,
+    }));
   };
 
   const handleEditPublishedChange = () => {
-    setEditPost({ ...editPost, published: !editPost.published });
+    setEditPost((prevPost) => ({
+      ...prevPost,
+      published: !prevPost.published,
+    }));
   };
 
   const handleUpdatePost = () => {
@@ -226,6 +288,18 @@ export default function AdminPosts() {
               Publish Post
             </label>
           </div>
+          <div>
+            <button
+              className="btn btn-blog btn-success"
+              onClick={() => {
+                formStateRef.current = newPost;
+                widgetRef.current.open();
+              }}
+            >
+              <FaUpload className="me-2" />
+              Upload Image
+            </button>
+          </div>
         </Modal.Body>
         <Modal.Footer>
           <button
@@ -299,7 +373,22 @@ export default function AdminPosts() {
               Publish Post
             </label>
           </div>
-          <button className="btn btn-blog-red btn-danger" onClick={handleDeletePost}>
+          <div>
+            <button
+              className="btn btn-blog btn-success mb-3"
+              onClick={() => {
+                formStateRef.current = editPost;
+                widgetRef.current.open();
+              }}
+            >
+              <FaEdit className="me-2" />
+              Edit Image
+            </button>
+          </div>
+          <button
+            className="btn btn-blog-red btn-danger"
+            onClick={handleDeletePost}
+          >
             <FaTrashAlt /> Delete Post
           </button>
         </Modal.Body>
@@ -310,7 +399,10 @@ export default function AdminPosts() {
           >
             Cancel
           </button>
-          <button className="btn btn-blog btn-success" onClick={handleUpdatePost}>
+          <button
+            className="btn btn-blog btn-success"
+            onClick={handleUpdatePost}
+          >
             Update Post
           </button>
         </Modal.Footer>
@@ -330,7 +422,10 @@ export default function AdminPosts() {
           >
             Cancel
           </button>
-          <button className="btn btn-blog-red btn-danger" onClick={handleConfirmDelete}>
+          <button
+            className="btn btn-blog-red btn-danger"
+            onClick={handleConfirmDelete}
+          >
             Delete
           </button>
         </Modal.Footer>
@@ -346,6 +441,7 @@ export default function AdminPosts() {
               <th>Description</th>
               <th>Content</th>
               <th>Created At</th>
+              <th>Image</th>
               <th>Published</th>
               <th>Edit</th>
             </tr>
@@ -359,10 +455,13 @@ export default function AdminPosts() {
                 <td>{post.description}</td>
                 <td>{post.data}</td>
                 <td>{post.createdAt}</td>
+                <td className="table-image-column">{post.image}</td>
                 <td className="text-center">
                   <button
                     className={`btn ${
-                      post.published ? "btn-blog-red btn-danger" : "btn-blog-green btn-success"
+                      post.published
+                        ? "btn-blog-red btn-danger"
+                        : "btn-blog-green btn-success"
                     } me-2`}
                     onClick={() => handleTogglePublishStatus(post.id)}
                   >

@@ -57,11 +57,18 @@ export default function Posts() {
           style={{
             backgroundImage: `url(${homeBgImage})`,
             backgroundSize: "cover",
-            backgroundAttachment: "scroll",
+            backgroundPosition: "center",
             padding: "5rem",
+            height: "75vh",
           }}
         >
-          <h1 className="fw-bold">My Blog</h1>
+          <h1 className="post-content text-white post-content-h1 fw-bold">
+            My Blog
+          </h1>
+          <h2 className="post-content text-white post-content-h2 fw-bold">
+            Join me on a journey through thoughts, experiences and insights
+            across diverse topics from a personal perspective.
+          </h2>
         </div>
       </div>
       <div className="container">

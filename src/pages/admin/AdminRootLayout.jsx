@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink, Outlet, useNavigate} from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
@@ -7,15 +7,16 @@ import axios from "axios";
 export default function AdminRootLayout() {
   const [user, setUser] = useState(null);
   const [newUser, setNewUser] = useState({ name: "", password: "" });
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  
   const { mutate, isLoading, error } = useMutation({
     mutationFn: (user) =>
-      axios.get(`http://localhost:8080/users/single/${user}`).then((res) => res.data),
+      axios
+        .post(`http://localhost:8080/users/single/${user}`, newUser.password)
+        .then((res) => res.data),
     onSuccess: (data) => {
       setUser(data.name);
-      navigate(`./${newUser.name}/posts`)
+      navigate(`./${newUser.name}/posts`);
     },
     onError: (error) => {
       console.log(error);
@@ -24,7 +25,6 @@ export default function AdminRootLayout() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    console.log(newUser.name);
     mutate(newUser.name);
   };
 
@@ -46,6 +46,7 @@ export default function AdminRootLayout() {
                   id="name"
                   name="name"
                   value={newUser.name}
+                  autoComplete="username"
                   onChange={handleUserInputChange}
                   className="form-control"
                 />
@@ -58,15 +59,26 @@ export default function AdminRootLayout() {
                   name="password"
                   value={newUser.password}
                   onChange={handleUserInputChange}
+                  autoComplete="current-password"
                   className="form-control"
                 />
               </div>
               <div className="d-flex justify-content-center">
-                <button type="submit" className="btn btn-blog btn-primary" disabled={isLoading}>
+                <button
+                  type="submit"
+                  className="btn btn-blog btn-primary"
+                  disabled={isLoading}
+                >
                   {isLoading ? "Loading..." : "Login"}
                 </button>
               </div>
-              {error && <div className="alert alert-danger mt-3">{error.message}</div>}
+              <div className="alert alert-secondary text-center m-4">
+                To access the admin area, <br /> enter 'admin' as the username
+                <br /> and 'abcd1234' as the password
+              </div>
+              {error && (
+                <div className="alert alert-danger mt-3">{error.message}</div>
+              )}
             </form>
           </div>
         </div>
@@ -76,7 +88,11 @@ export default function AdminRootLayout() {
 
   return (
     <div className="root-layout d-flex vh-100">
-      <div className="sidebar d-flex flex-column" id="sidebar" style={{ height: "100vh" }}>
+      <div
+        className="sidebar d-flex flex-column"
+        id="sidebar"
+        style={{ height: "100vh" }}
+      >
         <div className="nav flex-column mt-3">
           <NavLink to={`./${user}/posts`} className="nav-link links">
             POSTS
@@ -89,15 +105,21 @@ export default function AdminRootLayout() {
           </NavLink>
         </div>
         <div className="nav flex-column mt-auto">
-          <NavLink to="/" className="nav-link links">
+          <NavLink to="/home" className="nav-link links out-link">
             HOME
           </NavLink>
-          <NavLink onClick={()=>{setUser("")}} to="/admin" className="nav-link links out-link">
+          <NavLink
+            onClick={() => {
+              setUser("");
+            }}
+            to="/"
+            className="nav-link links out-link"
+          >
             LOGOUT
           </NavLink>
         </div>
       </div>
-      <div className="admin content flex-grow-1" >
+      <div className="admin content flex-grow-1">
         <main>
           <Outlet />
         </main>
