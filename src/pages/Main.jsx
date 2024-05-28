@@ -6,23 +6,29 @@ export default function Main() {
   return (
     <div>
       <div
-          style={{
-            backgroundImage: `url(${homeBgImage})`,
-            backgroundSize: "cover",
-            height:"100vh",
-            width:"100vw",
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "flex-start",
-            backgroundAttachment: "scroll",
-            padding: "5rem",
-          }}
-        >
-            <NavLink  to={"./home"} className="home-links nav-link" >HOME</NavLink>
-            <NavLink to={"./home/admin"} className="home-links nav-link" >ADMIN</NavLink>
-          {/* <h1 className="fw-bold">My Blog</h1> */}
+        style={{
+          backgroundImage: `url(${homeBgImage})`,
+          backgroundSize: "cover",
+          height: "100vh",
+          width: "100vw",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundAttachment: "scroll",
+          padding: "5rem",
+        }}
+      >
+        <h1 className="fw-bold ">My Blog</h1>
+        <div className="pt-5 d-flex flex-row">
+          <NavLink to={"./home"} className="home-links nav-link">
+            HOME
+          </NavLink>
+          <NavLink to={"./home/admin"} className="home-links nav-link">
+            ADMIN
+          </NavLink>
         </div>
+      </div>
     </div>
   );
 }

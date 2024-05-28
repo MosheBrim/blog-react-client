@@ -23,7 +23,9 @@ const PostContent = () => {
   };
 
   const formatTextWithBreaks = (text) => {
-    return text.replace(/\./g, ".<br />");
+    let newText = text.replace(/\./g, ".<br />");
+    newText = text.replace(/\:/g, ":<br />");
+    return newText;
   };
 
   const [showAddComment, setShowAddComment] = useState(false);
@@ -98,7 +100,6 @@ const PostContent = () => {
             backgroundPosition: "center",
             backgroundAttachment: "scroll",
             width: "100vw",
-            height: "70vh",
             padding: "5rem",
           }}
         >

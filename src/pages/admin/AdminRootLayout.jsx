@@ -8,6 +8,7 @@ export default function AdminRootLayout() {
   const [user, setUser] = useState(null);
   const [newUser, setNewUser] = useState({ name: "", password: "" });
   const navigate = useNavigate();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const { mutate, isLoading, error } = useMutation({
     mutationFn: (user) =>
@@ -30,6 +31,10 @@ export default function AdminRootLayout() {
 
   const handleUserInputChange = (e) => {
     setNewUser({ ...newUser, [e.target.name]: e.target.value });
+  };
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
   };
 
   if (!user) {
@@ -89,18 +94,18 @@ export default function AdminRootLayout() {
   return (
     <div className="root-layout d-flex vh-100">
       <div
-        className="sidebar d-flex flex-column"
+        className={`sidebar d-flex flex-column${isSidebarOpen ? " open" : ""}`}
         id="sidebar"
         style={{ height: "100vh" }}
       >
         <div className="nav flex-column mt-3">
-          <NavLink to={`./${user}/posts`} className="nav-link links">
+          <NavLink to={`./${user}/posts`} className="nav-link links" onClick={() => setIsSidebarOpen(false)}>
             POSTS
           </NavLink>
-          <NavLink to={`./${user}/comments`} className="nav-link links">
+          <NavLink to={`./${user}/comments`} className="nav-link links" onClick={() => setIsSidebarOpen(false)}>
             COMMENTS
           </NavLink>
-          <NavLink to={`./${user}/users`} className="nav-link links">
+          <NavLink to={`./${user}/users`} className="nav-link links" onClick={() => setIsSidebarOpen(false)}>
             USERS
           </NavLink>
         </div>
@@ -111,6 +116,7 @@ export default function AdminRootLayout() {
           <NavLink
             onClick={() => {
               setUser("");
+              setIsSidebarOpen(false);
             }}
             to="/"
             className="nav-link links out-link"
@@ -123,6 +129,9 @@ export default function AdminRootLayout() {
         <main>
           <Outlet />
         </main>
+      </div>
+      <div className="hamburger-menu">
+      <button className="hamburger-btn" onClick={toggleSidebar}>&#9776;</button>
       </div>
     </div>
   );
