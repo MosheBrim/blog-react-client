@@ -17,13 +17,13 @@ export default function AdminComments() {
     queryKey: ["allComments"],
     queryFn: () =>
       axios
-        .get(`http://localhost:8080/admin/${user}/comments`)
+        .get(`https://blog-spring-server.onrender.com/admin/${user}/comments`)
         .then((res) => res.data),
   });
 
   const deleteComment = useMutation({
     mutationFn: (CommentId) =>
-      axios.delete(`http://localhost:8080/admin/comments/${user}/${CommentId}`),
+      axios.delete(`https://blog-spring-server.onrender.com/admin/comments/${user}/${CommentId}`),
     onSuccess: () => {
       queryClient.invalidateQueries("allComments");
       setShowDeleteConfirmModal(false);

@@ -21,13 +21,13 @@ export default function AdminUsers() {
     queryKey: ["allUsers"],
     queryFn: () =>
       axios
-        .get(`http://localhost:8080/admin/users/${user}`)
+        .get(`https://blog-spring-server.onrender.com/admin/users/${user}`)
         .then((res) => res.data),
   });
 
   const sendNewUser = useMutation({
     mutationFn: (newUser) =>
-      axios.post(`http://localhost:8080/admin/users/${user}`, newUser),
+      axios.post(`https://blog-spring-server.onrender.com/admin/users/${user}`, newUser),
     onSuccess: (response) => {
       console.log(response.data);
       queryClient.invalidateQueries("allUsers");
@@ -41,7 +41,7 @@ export default function AdminUsers() {
 
   const deleteUser = useMutation({
     mutationFn: (userName) =>
-      axios.delete(`http://localhost:8080/admin/users/${user}/${userName}`),
+      axios.delete(`https://blog-spring-server.onrender.com/admin/users/${user}/${userName}`),
     onSuccess: () => {
       queryClient.invalidateQueries("allUsers");
       setShowDeleteConfirmModal(false);

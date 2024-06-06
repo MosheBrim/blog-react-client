@@ -11,13 +11,17 @@ export default function AdminRootLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const { mutate, isLoading, error } = useMutation({
-    mutationFn: (user) =>
+    mutationFn: (userData) =>
       axios
-        .post(`http://localhost:8080/users/single/${user}`, newUser.password)
+        .get(`https://blog-spring-server.onrender.com/users/single/${userData.user}`, {
+          params: {
+            password: userData.password,
+          },
+        })
         .then((res) => res.data),
     onSuccess: (data) => {
       setUser(data.name);
-      navigate(`./${newUser.name}/posts`);
+      navigate(`./${data.name}/posts`);
     },
     onError: (error) => {
       console.log(error);
@@ -26,7 +30,7 @@ export default function AdminRootLayout() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    mutate(newUser.name);
+    mutate({ user: newUser.name, password: newUser.password });
   };
 
   const handleUserInputChange = (e) => {
@@ -99,13 +103,25 @@ export default function AdminRootLayout() {
         style={{ height: "100vh" }}
       >
         <div className="nav flex-column mt-3">
-          <NavLink to={`./${user}/posts`} className="nav-link links" onClick={() => setIsSidebarOpen(false)}>
+          <NavLink
+            to={`./${user}/posts`}
+            className="nav-link links"
+            onClick={() => setIsSidebarOpen(false)}
+          >
             POSTS
           </NavLink>
-          <NavLink to={`./${user}/comments`} className="nav-link links" onClick={() => setIsSidebarOpen(false)}>
+          <NavLink
+            to={`./${user}/comments`}
+            className="nav-link links"
+            onClick={() => setIsSidebarOpen(false)}
+          >
             COMMENTS
           </NavLink>
-          <NavLink to={`./${user}/users`} className="nav-link links" onClick={() => setIsSidebarOpen(false)}>
+          <NavLink
+            to={`./${user}/users`}
+            className="nav-link links"
+            onClick={() => setIsSidebarOpen(false)}
+          >
             USERS
           </NavLink>
         </div>
@@ -131,7 +147,9 @@ export default function AdminRootLayout() {
         </main>
       </div>
       <div className="hamburger-menu">
-      <button className="hamburger-btn" onClick={toggleSidebar}>&#9776;</button>
+        <button className="hamburger-btn" onClick={toggleSidebar}>
+          &#9776;
+        </button>
       </div>
     </div>
   );

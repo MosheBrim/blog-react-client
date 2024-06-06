@@ -75,7 +75,7 @@ export default function AdminPosts() {
     queryKey: ["allPosts"],
     queryFn: () =>
       axios
-        .get(`http://localhost:8080/admin/posts/${user}`)
+        .get(`https://blog-spring-server.onrender.com/admin/posts/${user}`)
         .then((res) => res.data),
   });
 
@@ -87,7 +87,7 @@ export default function AdminPosts() {
 
   const sendNewPost = useMutation({
     mutationFn: (newPost) =>
-      axios.post(`http://localhost:8080/admin/posts/${user}`, newPost),
+      axios.post(`https://blog-spring-server.onrender.com/admin/posts/${user}`, newPost),
     onSuccess: (response) => {
       console.log(response.data);
       queryClient.invalidateQueries("allPosts");
@@ -106,7 +106,7 @@ export default function AdminPosts() {
   const updatePost = useMutation({
     mutationFn: (updatedPost) =>
       axios.put(
-        `http://localhost:8080/admin/posts/${user}/${updatedPost.id}`,
+        `https://blog-spring-server.onrender.com/admin/posts/${user}/${updatedPost.id}`,
         updatedPost
       ),
     onSuccess: () => {
@@ -117,7 +117,7 @@ export default function AdminPosts() {
 
   const deletePost = useMutation({
     mutationFn: (postId) =>
-      axios.delete(`http://localhost:8080/admin/posts/${user}/${postId}`),
+      axios.delete(`https://blog-spring-server.onrender.com/admin/posts/${user}/${postId}`),
     onSuccess: () => {
       queryClient.invalidateQueries("allPosts");
       setShowDeleteConfirmModal(false);
@@ -127,7 +127,7 @@ export default function AdminPosts() {
 
   const togglePublishStatus = useMutation({
     mutationFn: (postId) =>
-      axios.get(`http://localhost:8080/admin/posts/publish/${user}/${postId}`),
+      axios.get(`https://blog-spring-server.onrender.com/admin/posts/publish/${user}/${postId}`),
     onSuccess: () => {
       queryClient.invalidateQueries("allPosts");
     },

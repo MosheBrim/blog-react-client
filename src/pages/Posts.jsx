@@ -24,7 +24,7 @@ export default function Posts() {
   const posts = useQuery({
     queryKey: ["allPosts"],
     queryFn: () =>
-      axios.get("http://localhost:8080/posts").then((res) => res.data),
+      axios.get("https://blog-spring-server.onrender.com/posts").then((res) => res.data),
   });
 
   if (posts.isLoading) {
@@ -53,15 +53,13 @@ export default function Posts() {
     <div className="posts container-fluid m-0 p-0">
       <div className="home-bg">
         <div
-          className="home-bg-container text-center mb-5 text-white"
+          className="masthead text-center mb-5 text-white"
           style={{
             backgroundImage: `url(${homeBgImage})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            padding: "5rem",
-            height: "75vh",
           }}
         >
+          <div className="overlay"></div>
+
           <h1 className="post-content text-white post-content-h1 fw-bold">
             My Blog
           </h1>

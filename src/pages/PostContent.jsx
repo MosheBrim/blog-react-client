@@ -38,20 +38,20 @@ const PostContent = () => {
   const post = useQuery({
     queryKey: [`post${id}`],
     queryFn: () =>
-      axios.get(`http://localhost:8080/posts/${id}`).then((res) => res.data),
+      axios.get(`https://blog-spring-server.onrender.com/posts/${id}`).then((res) => res.data),
   });
 
   const comments = useQuery({
     queryKey: [`comments${id}`],
     queryFn: () =>
       axios
-        .get(`http://localhost:8080/posts/${id}/comments`)
+        .get(`https://blog-spring-server.onrender.com/posts/${id}/comments`)
         .then((res) => res.data),
   });
 
   const sendNewComment = useMutation({
     mutationFn: (newComment) =>
-      axios.post(`http://localhost:8080/comments`, newComment),
+      axios.post(`https://blog-spring-server.onrender.com/comments`, newComment),
     onSuccess: () => {
       queryClient.invalidateQueries(`comments${id}`);
       setNewComment({ postId: id, name: "", data: "" });
@@ -90,19 +90,15 @@ const PostContent = () => {
   };
 
   return (
-    <div className="posts comments container-fluid m-0 p-0">
+    <div className="posts comments  m-0 p-0">
       <div className="posts home-bg">
         <div
-          className="mb-5 text-white"
+          className="mb-5 text-white masthead"
           style={{
             backgroundImage: `url(${post.data.image})`,
-            backgroundSize: "100% 100%",
-            backgroundPosition: "center",
-            backgroundAttachment: "scroll",
-            width: "100vw",
-            padding: "5rem",
           }}
         >
+          <div className="overlay"></div>
           <h1 className="post-content text-white post-content-h1 fw-bold">
             {post.data.title}
           </h1>
@@ -110,13 +106,16 @@ const PostContent = () => {
             {post.data.description}
           </h2>
           <p className="post-content post-meta">
-            Posted by {post.data.author} on {myDate(new Date(post.data.createdAt))}
+            Posted by {post.data.author} on{" "}
+            {myDate(new Date(post.data.createdAt))}
           </p>
         </div>
         <div className="text-left text-post">
           <h4
             className="post-content post-content-h4 fw-bold"
-            dangerouslySetInnerHTML={{ __html: formatTextWithBreaks(post.data.data) }}
+            dangerouslySetInnerHTML={{
+              __html: formatTextWithBreaks(post.data.data),
+            }}
           />
         </div>
       </div>
