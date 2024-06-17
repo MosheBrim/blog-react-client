@@ -21,10 +21,18 @@ export default function Posts() {
 
   const navigate = useNavigate();
 
-  const posts = useQuery({
+  useQuery({
     queryKey: ["allPosts"],
     queryFn: () =>
-      axios.get("https://blog-spring-server.onrender.com/posts").then((res) => res.data),
+      axios.get("https://blog-spring-server.onrender.com/posts")
+        .then((res) => {
+          console.log('Data:', res.data);
+          return res.data;
+        })
+        .catch((err) => {
+          console.error('API Error:', err);
+          throw err;
+        }),
   });
 
   if (posts.isLoading) {
