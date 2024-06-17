@@ -45,6 +45,11 @@ export default function Posts() {
     return <div className="alert alert-danger">Error</div>;
   }
 
+  if (!Array.isArray(posts.data)) {
+    console.error("Expected an array of posts but got:", posts.data);
+    return <div className="alert alert-danger">Unexpected data format</div>;
+  }
+
   const handleClick = (id) => {
     navigate(`post/${id}`);
   };
