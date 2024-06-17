@@ -21,7 +21,7 @@ export default function Posts() {
 
   const navigate = useNavigate();
 
-  useQuery({
+  const { data: postsData, isLoading, isError, error } = useQuery({
     queryKey: ["allPosts"],
     queryFn: () =>
       axios.get("https://blog-spring-server.onrender.com/posts")
@@ -35,7 +35,7 @@ export default function Posts() {
         }),
   });
 
-  if (posts.isLoading) {
+  if (isLoading) {
     return (
       <div
         className="d-flex justify-content-center align-items-center"
@@ -48,13 +48,13 @@ export default function Posts() {
     );
   }
 
-  if (posts.isError) {
-    console.log(posts.error);
+  if (isError) {
+    console.log(error);
     return <div className="alert alert-danger">Error</div>;
   }
 
-  if (!Array.isArray(posts.data)) {
-    console.error("Expected an array of posts but got:", posts.data);
+  if (!Array.isArray(postsData)) {
+    console.error("Expected an array of posts but got:", postsData);
     return <div className="alert alert-danger">Unexpected data format</div>;
   }
 
@@ -85,7 +85,7 @@ export default function Posts() {
       <div className="container">
         <div className="row justify-content-center">
           <div className="col-md-10">
-            {posts.data.map((post, index) => (
+            {postsData.map((post, index) => (
               <div key={index} className="post-preview post mb-5">
                 <a
                   href=""
