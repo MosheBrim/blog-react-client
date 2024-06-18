@@ -38,7 +38,9 @@ const PostContent = () => {
   const post = useQuery({
     queryKey: [`post${id}`],
     queryFn: () =>
-      axios.get(`https://blog-spring-server.onrender.com/posts/${id}`).then((res) => res.data),
+      axios
+        .get(`https://blog-spring-server.onrender.com/posts/${id}`)
+        .then((res) => res.data),
   });
 
   const comments = useQuery({
@@ -51,7 +53,10 @@ const PostContent = () => {
 
   const sendNewComment = useMutation({
     mutationFn: (newComment) =>
-      axios.post(`https://blog-spring-server.onrender.com/comments`, newComment),
+      axios.post(
+        `https://blog-spring-server.onrender.com/comments`,
+        newComment
+      ),
     onSuccess: () => {
       queryClient.invalidateQueries(`comments${id}`);
       setNewComment({ postId: id, name: "", data: "" });
@@ -59,17 +64,13 @@ const PostContent = () => {
     },
   });
 
-  if (post.isLoading || comments.isLoading || sendNewComment.isLoading) {
+  if (post.isLoading || comments.isLoading || sendNewComment.isPending) {
     return (
       <div
-        className="d-flex justify-content-center align-items-center"
+        className="d-flex justify-content-center align-items-center custom-spinner-color"
         style={{ height: "100vh" }}
       >
-        <div
-          className="spinner-border text-primary"
-          style={{ width: "4rem", height: "4rem" }}
-          role="status"
-        >
+        <div className="spinner-border custom-spinner-color" role="status">
           <span className="visually-hidden">Loading...</span>
         </div>
       </div>

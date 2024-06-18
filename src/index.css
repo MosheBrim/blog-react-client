@@ -8,6 +8,12 @@ body {
   min-width: 100vw;
 }
 
+.custom-spinner-color {
+  color: #e8b88b;
+  background-color: #f8efe7 !important;
+
+}
+
 .home-links {
   height: 60px;
   width: 170px;

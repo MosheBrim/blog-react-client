@@ -48,13 +48,13 @@ export default function AdminUsers() {
     },
   });
 
-  if (users.isLoading || sendNewUser.isLoading || deleteUser.isLoading) {
+  if (users.isLoading || sendNewUser.isPending || deleteUser.isPending) {
     return (
       <div
-        className="d-flex justify-content-center align-items-center"
+        className="d-flex justify-content-center align-items-center custom-spinner-color"
         style={{ height: "100vh" }}
       >
-        <div className="spinner-border text-primary" role="status">
+        <div className="spinner-border custom-spinner-color" role="status">
           <span className="visually-hidden">Loading...</span>
         </div>
       </div>

@@ -10,7 +10,7 @@ export default function AdminRootLayout() {
   const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  const { mutate, isLoading, error } = useMutation({
+  const { mutate, isPending, error } = useMutation({
     mutationFn: (userData) =>
       axios
         .get(`https://blog-spring-server.onrender.com/users/single/${userData.user}`, {
@@ -27,6 +27,19 @@ export default function AdminRootLayout() {
       console.log(error);
     },
   });
+
+  if (isPending) {
+    return (
+      <div
+        className="d-flex justify-content-center align-items-center custom-spinner-color"
+        style={{ height: "100vh" }}
+      >
+        <div className="spinner-border custom-spinner-color" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
+  }
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -76,9 +89,8 @@ export default function AdminRootLayout() {
                 <button
                   type="submit"
                   className="btn btn-blog btn-primary"
-                  disabled={isLoading}
                 >
-                  {isLoading ? "Loading..." : "Login"}
+                  Login
                 </button>
               </div>
               <div className="alert alert-secondary text-center m-4">

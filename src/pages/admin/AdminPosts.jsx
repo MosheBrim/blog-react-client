@@ -8,7 +8,6 @@ import {
   FaEyeSlash,
   FaEdit,
   FaTrashAlt,
-  FaImage,
   FaUpload,
 } from "react-icons/fa";
 
@@ -23,7 +22,8 @@ export default function AdminPosts() {
     description: "",
     data: "",
     published: false,
-    image: "https://res.cloudinary.com/dne5dplkd/image/upload/v1716829443/nrot9cbvcvcrj04zo5i0.jpg",
+    image:
+      "https://res.cloudinary.com/dne5dplkd/image/upload/v1716829443/nrot9cbvcvcrj04zo5i0.jpg",
   });
   const [editPost, setEditPost] = useState({
     id: null,
@@ -32,7 +32,8 @@ export default function AdminPosts() {
     description: "",
     data: "",
     published: false,
-    image: "https://res.cloudinary.com/dne5dplkd/image/upload/v1716829443/nrot9cbvcvcrj04zo5i0.jpg",
+    image:
+      "https://res.cloudinary.com/dne5dplkd/image/upload/v1716829443/nrot9cbvcvcrj04zo5i0.jpg",
   });
 
   const widgetRef = useRef();
@@ -87,7 +88,10 @@ export default function AdminPosts() {
 
   const sendNewPost = useMutation({
     mutationFn: (newPost) =>
-      axios.post(`https://blog-spring-server.onrender.com/admin/posts/${user}`, newPost),
+      axios.post(
+        `https://blog-spring-server.onrender.com/admin/posts/${user}`,
+        newPost
+      ),
     onSuccess: (response) => {
       console.log(response.data);
       queryClient.invalidateQueries("allPosts");
@@ -97,7 +101,8 @@ export default function AdminPosts() {
         description: "",
         data: "",
         published: false,
-        image: "https://res.cloudinary.com/dne5dplkd/image/upload/v1716829443/nrot9cbvcvcrj04zo5i0.jpg",
+        image:
+          "https://res.cloudinary.com/dne5dplkd/image/upload/v1716829443/nrot9cbvcvcrj04zo5i0.jpg",
       });
       setShowAddPostModal(false);
     },
@@ -117,7 +122,9 @@ export default function AdminPosts() {
 
   const deletePost = useMutation({
     mutationFn: (postId) =>
-      axios.delete(`https://blog-spring-server.onrender.com/admin/posts/${user}/${postId}`),
+      axios.delete(
+        `https://blog-spring-server.onrender.com/admin/posts/${user}/${postId}`
+      ),
     onSuccess: () => {
       queryClient.invalidateQueries("allPosts");
       setShowDeleteConfirmModal(false);
@@ -127,25 +134,28 @@ export default function AdminPosts() {
 
   const togglePublishStatus = useMutation({
     mutationFn: (postId) =>
-      axios.get(`https://blog-spring-server.onrender.com/admin/posts/publish/${user}/${postId}`),
+      axios.get(
+        `https://blog-spring-server.onrender.com/admin/posts/publish/${user}/${postId}`
+      ),
     onSuccess: () => {
       queryClient.invalidateQueries("allPosts");
+      // alert("Post publication status updated successfully!");
     },
   });
 
   if (
     posts.isLoading ||
-    sendNewPost.isLoading ||
-    updatePost.isLoading ||
-    deletePost.isLoading ||
-    togglePublishStatus.isLoading
+    sendNewPost.isPending ||
+    updatePost.isPending ||
+    deletePost.isPending ||
+    togglePublishStatus.isPending
   ) {
     return (
       <div
-        className="d-flex justify-content-center align-items-center"
+        className="d-flex justify-content-center align-items-center custom-spinner-color"
         style={{ height: "100vh" }}
       >
-        <div className="spinner-border text-primary" role="status">
+        <div className="spinner-border custom-spinner-color" role="status">
           <span className="visually-hidden">Loading...</span>
         </div>
       </div>
