@@ -4,8 +4,8 @@ import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import homeBgImage from "../assets/img/home-bg.jpg";
 import Footer from "../Components/Footer";
-import getServiceUrl from '../Service';
-
+import getServiceUrl from "../Service";
+import blogScape from "../assets/img/BlogScape.jpeg";
 
 export default function Posts() {
   const serviceUrl = getServiceUrl();
@@ -24,16 +24,22 @@ export default function Posts() {
 
   const navigate = useNavigate();
 
-  const { data: postsData, isLoading, isError, error } = useQuery({
+  const {
+    data: postsData,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
     queryKey: ["allPosts"],
     queryFn: () =>
-      axios.get(`${serviceUrl}/posts`)
+      axios
+        .get(`${serviceUrl}/posts`)
         .then((res) => {
-          console.log('Data:', res.data);
+          console.log("Data:", res.data);
           return res.data;
         })
         .catch((err) => {
-          console.error('API Error:', err);
+          console.error("API Error:", err);
           throw err;
         }),
   });
@@ -76,9 +82,10 @@ export default function Posts() {
         >
           <div className="overlay"></div>
 
-          <h1 className="post-content text-white post-content-h1 fw-bold">
-            My Blog
-          </h1>
+          <div className="logo-container">
+            <img className="logo" src={blogScape} alt="blog-scape" />
+            <h1 className="fw-bold text-white blog-title">My Blog</h1>
+          </div>
           <h2 className="post-content text-white post-content-h2 fw-bold">
             Join me on a journey through thoughts, experiences and insights
             across diverse topics from a personal perspective.

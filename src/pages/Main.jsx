@@ -1,5 +1,6 @@
 import React from "react";
 import homeBgImage from "../assets/img/home-bg.jpg";
+import blogScape from "../assets/img/BlogScape.jpeg";
 import { NavLink } from "react-router-dom";
 
 export default function Main() {
@@ -19,7 +20,10 @@ export default function Main() {
           padding: "5rem",
         }}
       >
-        <h1 className="fw-bold ">My Blog</h1>
+        <div className="logo-container">
+          <img className="logo" src={blogScape} alt="blog-scape" />
+          <h1 className="fw-bold blog-title">My Blog</h1>
+        </div>
         <div className="pt-5 d-flex flex-row">
           <NavLink to={"./home"} className="home-links nav-link">
             HOME

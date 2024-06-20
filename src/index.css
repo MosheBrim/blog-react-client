@@ -8,6 +8,24 @@ body {
   min-width: 100vw;
 }
 
+.logo-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo {
+  width: 80px; 
+  height: auto;
+  margin-right: 20px; 
+  border-radius: 15px;
+}
+
+.blog-title {
+  font-size: 4em;
+  margin: 0;
+}
 .custom-spinner-color {
   color: #e8b88b;
   background-color: #f8efe7 !important;
@@ -22,16 +40,17 @@ body {
   text-align: center;
   font-size: x-large;
   font-weight: bolder;
-  border: #efb986 solid 2px;
+  border: #9e8770 solid 2px;
   border-radius: 5px;
-  color: #e8b88b;
-  background-color: #c38852;
+  color: #746352;
+  background-color: #e8b88b;
 }
 .home-links:hover {
   border-radius: 5px;
-  color: #946335;
+  color: #e8b88b;
   font-weight: bold;
-  background-color: #e8b88b;
+  background-color: #c38852;
+  border-color: #e8b88b;
 }
 
 .login {
