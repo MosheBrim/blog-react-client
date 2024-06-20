@@ -5,6 +5,7 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
+import '@fortawesome/fontawesome-free/css/all.min.css';
 import Posts from "./pages/Posts";
 import NotFound from "./pages/NotFound";
 import PostContent from "./pages/PostContent";

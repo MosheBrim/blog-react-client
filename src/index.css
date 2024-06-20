@@ -159,6 +159,17 @@ body {
   border: #efb986 solid 2px;
   background-color: #fadabd !important;
 }
+.btn-blog-link {
+  color: #ffffff !important;
+  border: #fadabd solid 2px;
+  background-color: #f5c9a1 !important;
+}
+
+.btn-blog-link:hover {
+  color: #ffffff !important;
+  border: #f5c9a1 solid 2px;
+  background-color: #fadabd !important;
+}
 
 .btn-blog-cancel {
   color: #ffffff !important;
@@ -192,6 +203,15 @@ body {
   color: #ffffff !important;
   border: #21a521 solid 2px;
   background-color: #9ad67e !important;
+}
+.btn-circle {
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  padding: 12px 0;
+  font-size: 20px;
+  line-height: 1.428571429;
+  border-radius: 25px;
 }
 
 .header-h1 {
