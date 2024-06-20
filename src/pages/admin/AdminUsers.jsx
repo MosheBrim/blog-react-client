@@ -4,8 +4,11 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import { FaEye, FaEyeSlash, FaEdit, FaTrashAlt } from "react-icons/fa";
+import getServiceUrl from '../../Service';
+
 
 export default function AdminUsers() {
+  const serviceUrl = getServiceUrl();
   const { user } = useParams();
   const [showAddUserModal, setShowAddUserModal] = useState(false);
   const [showDeleteConfirmModal, setShowDeleteConfirmModal] = useState(false);
@@ -21,13 +24,13 @@ export default function AdminUsers() {
     queryKey: ["allUsers"],
     queryFn: () =>
       axios
-        .get(`https://blog-spring-server.onrender.com/admin/users/${user}`)
+        .get(`${serviceUrl}/admin/users/${user}`)
         .then((res) => res.data),
   });
 
   const sendNewUser = useMutation({
     mutationFn: (newUser) =>
-      axios.post(`https://blog-spring-server.onrender.com/admin/users/${user}`, newUser),
+      axios.post(`${serviceUrl}/admin/users/${user}`, newUser),
     onSuccess: (response) => {
       console.log(response.data);
       queryClient.invalidateQueries("allUsers");
@@ -41,7 +44,7 @@ export default function AdminUsers() {
 
   const deleteUser = useMutation({
     mutationFn: (userName) =>
-      axios.delete(`https://blog-spring-server.onrender.com/admin/users/${user}/${userName}`),
+      axios.delete(`${serviceUrl}/admin/users/${user}/${userName}`),
     onSuccess: () => {
       queryClient.invalidateQueries("allUsers");
       setShowDeleteConfirmModal(false);

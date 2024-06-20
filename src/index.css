@@ -40,8 +40,10 @@ body {
 }
 
 .comment {
-  margin: 10vw;
+  margin: 40px 20vw;
+  font-size: xx-small !important;
 }
+
 .comments {
   min-height: 100vh;
 }
@@ -63,16 +65,16 @@ body {
 }
 
 .post-content {
-  margin: 10px 15vw 10px 15vw;
+  margin: 10px 20vw;
   text-shadow: 2px 2px 4px rgba(57, 31, 3, 0.413);
   padding: 10px;
-  font-weight: bold;
 }
 .post-content-h4 {
-  margin: 10px 15vw 10px 15vw;
+  margin: 10px 20vw;
   text-shadow: none !important;
+  text-align: justify !important;
+  font-family: "Times New Roman", Times, serif;
   padding: 10px;
-  font-weight: bold;
   color: #9b8d84;
 }
 .content {
@@ -367,7 +369,10 @@ hr {
   }
 
   .post-content {
-    margin: 10px 5vw 10px 5vw;
+    margin: 10px 5vw;
     text-shadow: 2px 2px 4px rgba(57, 31, 3, 0.413);
+  }
+  .comment {
+    margin: 40px 5vw;
   }
 }

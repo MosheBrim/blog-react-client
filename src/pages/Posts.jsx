@@ -4,8 +4,11 @@ import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import homeBgImage from "../assets/img/home-bg.jpg";
 import Footer from "../Components/Footer";
+import getServiceUrl from '../Service';
+
 
 export default function Posts() {
+  const serviceUrl = getServiceUrl();
   const myDate = (date) => {
     const today = new Date();
     if (today.getDate() == date.getDate()) {
@@ -24,7 +27,7 @@ export default function Posts() {
   const { data: postsData, isLoading, isError, error } = useQuery({
     queryKey: ["allPosts"],
     queryFn: () =>
-      axios.get("https://blog-spring-server.onrender.com/posts")
+      axios.get(`${serviceUrl}/posts`)
         .then((res) => {
           console.log('Data:', res.data);
           return res.data;

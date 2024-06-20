@@ -3,8 +3,11 @@ import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
+import getServiceUrl from '../../Service';
+
 
 export default function AdminRootLayout() {
+  const serviceUrl = getServiceUrl();
   const [user, setUser] = useState(null);
   const [newUser, setNewUser] = useState({ name: "", password: "" });
   const navigate = useNavigate();
@@ -13,7 +16,7 @@ export default function AdminRootLayout() {
   const { mutate, isPending, error } = useMutation({
     mutationFn: (userData) =>
       axios
-        .get(`https://blog-spring-server.onrender.com/users/single/${userData.user}`, {
+        .get(`${serviceUrl}/users/single/${userData.user}`, {
           params: {
             password: userData.password,
           },

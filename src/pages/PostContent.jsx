@@ -4,8 +4,11 @@ import axios from "axios";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import Comment from "../Components/Comment";
 import Footer from "../Components/Footer";
+import getServiceUrl from '../Service';
+
 
 const PostContent = () => {
+  const serviceUrl = getServiceUrl();
   const { id } = useParams();
   const queryClient = useQueryClient();
 
@@ -23,9 +26,9 @@ const PostContent = () => {
   };
 
   const formatTextWithBreaks = (text) => {
-    let newText = text.replace(/\./g, ".<br />");
-    newText = text.replace(/\:/g, ":<br />");
-    return newText;
+    let newText = text.replace(/\./g, ".\n");
+    newText = newText.replace(/\:/g, ":\n");
+    return newText.replace(/\n/g, "<br />");
   };
 
   const [showAddComment, setShowAddComment] = useState(false);
@@ -39,7 +42,7 @@ const PostContent = () => {
     queryKey: [`post${id}`],
     queryFn: () =>
       axios
-        .get(`https://blog-spring-server.onrender.com/posts/${id}`)
+        .get(`${serviceUrl}/posts/${id}`)
         .then((res) => res.data),
   });
 
@@ -47,14 +50,14 @@ const PostContent = () => {
     queryKey: [`comments${id}`],
     queryFn: () =>
       axios
-        .get(`https://blog-spring-server.onrender.com/posts/${id}/comments`)
+        .get(`${serviceUrl}/posts/${id}/comments`)
         .then((res) => res.data),
   });
 
   const sendNewComment = useMutation({
     mutationFn: (newComment) =>
       axios.post(
-        `https://blog-spring-server.onrender.com/comments`,
+        `${serviceUrl}/comments`,
         newComment
       ),
     onSuccess: () => {
@@ -111,9 +114,9 @@ const PostContent = () => {
             {myDate(new Date(post.data.createdAt))}
           </p>
         </div>
-        <div className="text-left text-post">
+        <div className="text-justify ">
           <h4
-            className="post-content post-content-h4 fw-bold"
+            className="post-content text-justify post-content-h4 "
             dangerouslySetInnerHTML={{
               __html: formatTextWithBreaks(post.data.data),
             }}

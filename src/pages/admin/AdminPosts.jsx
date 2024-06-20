@@ -10,8 +10,11 @@ import {
   FaTrashAlt,
   FaUpload,
 } from "react-icons/fa";
+import getServiceUrl from '../../Service';
+
 
 export default function AdminPosts() {
+  const serviceUrl = getServiceUrl();
   const { user } = useParams();
   const [showAddPostModal, setShowAddPostModal] = useState(false);
   const [showEditPostModal, setShowEditPostModal] = useState(false);
@@ -76,7 +79,7 @@ export default function AdminPosts() {
     queryKey: ["allPosts"],
     queryFn: () =>
       axios
-        .get(`https://blog-spring-server.onrender.com/admin/posts/${user}`)
+        .get(`${serviceUrl}/admin/posts/${user}`)
         .then((res) => res.data),
   });
 
@@ -89,7 +92,7 @@ export default function AdminPosts() {
   const sendNewPost = useMutation({
     mutationFn: (newPost) =>
       axios.post(
-        `https://blog-spring-server.onrender.com/admin/posts/${user}`,
+        `${serviceUrl}/admin/posts/${user}`,
         newPost
       ),
     onSuccess: (response) => {
@@ -111,7 +114,7 @@ export default function AdminPosts() {
   const updatePost = useMutation({
     mutationFn: (updatedPost) =>
       axios.put(
-        `https://blog-spring-server.onrender.com/admin/posts/${user}/${updatedPost.id}`,
+        `${serviceUrl}/admin/posts/${user}/${updatedPost.id}`,
         updatedPost
       ),
     onSuccess: () => {
@@ -123,7 +126,7 @@ export default function AdminPosts() {
   const deletePost = useMutation({
     mutationFn: (postId) =>
       axios.delete(
-        `https://blog-spring-server.onrender.com/admin/posts/${user}/${postId}`
+        `${serviceUrl}/admin/posts/${user}/${postId}`
       ),
     onSuccess: () => {
       queryClient.invalidateQueries("allPosts");
@@ -135,7 +138,7 @@ export default function AdminPosts() {
   const togglePublishStatus = useMutation({
     mutationFn: (postId) =>
       axios.get(
-        `https://blog-spring-server.onrender.com/admin/posts/publish/${user}/${postId}`
+        `${serviceUrl}/admin/posts/publish/${user}/${postId}`
       ),
     onSuccess: () => {
       queryClient.invalidateQueries("allPosts");

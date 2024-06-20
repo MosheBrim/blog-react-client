@@ -4,8 +4,11 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import { FaEye, FaEyeSlash, FaEdit, FaTrashAlt } from "react-icons/fa";
+import getServiceUrl from '../../Service';
+
 
 export default function AdminComments() {
+  const serviceUrl = getServiceUrl();
   const { user } = useParams();
   const [showDeleteConfirmModal, setShowDeleteConfirmModal] = useState(false);
   const [CommentId, setCommentId] = useState("");
@@ -17,13 +20,13 @@ export default function AdminComments() {
     queryKey: ["allComments"],
     queryFn: () =>
       axios
-        .get(`https://blog-spring-server.onrender.com/admin/${user}/comments`)
+        .get(`${serviceUrl}/admin/${user}/comments`)
         .then((res) => res.data),
   });
 
   const deleteComment = useMutation({
     mutationFn: (CommentId) =>
-      axios.delete(`https://blog-spring-server.onrender.com/admin/comments/${user}/${CommentId}`),
+      axios.delete(`${serviceUrl}/admin/comments/${user}/${CommentId}`),
     onSuccess: () => {
       queryClient.invalidateQueries("allComments");
       setShowDeleteConfirmModal(false);
