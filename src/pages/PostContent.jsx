@@ -86,7 +86,9 @@ const PostContent = () => {
   }
 
   const handleAddComment = () => {
-    sendNewComment.mutate(newComment);
+    if (newComment.name && newComment.data){
+      sendNewComment.mutate(newComment);
+    }
   };
 
   const handleInputChange = (e) => {

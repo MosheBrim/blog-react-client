@@ -9,7 +9,7 @@ export default function Comment({ name, data, createdAt }) {
         </p>
         <hr />
 
-        <h4 className="mb-2 text-muted">{data}</h4>
+        <h5 className="mb-2 text-muted">{data}</h5>
       </div>
     </div>
   );

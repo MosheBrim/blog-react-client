@@ -10,7 +10,6 @@ import Posts from "./pages/Posts";
 import NotFound from "./pages/NotFound";
 import PostContent from "./pages/PostContent";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import AdminRootLayout from "./pages/admin/AdminRootLayout";
 import AdminPosts from "./pages/admin/AdminPosts";
 import AdminComments from "./pages/admin/AdminComments";
@@ -43,7 +42,6 @@ function App() {
     <>
       <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} />
-        {/* <ReactQueryDevtools initialIsOpen /> */}
       </QueryClientProvider>
     </>
   );

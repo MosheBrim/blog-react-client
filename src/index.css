@@ -16,9 +16,9 @@ body {
 }
 
 .logo {
-  width: 80px; 
+  width: 80px;
   height: auto;
-  margin-right: 20px; 
+  margin-right: 20px;
   border-radius: 15px;
 }
 
@@ -29,7 +29,6 @@ body {
 .custom-spinner-color {
   color: #e8b88b;
   background-color: #f8efe7 !important;
-
 }
 
 .home-links {
@@ -40,10 +39,10 @@ body {
   text-align: center;
   font-size: x-large;
   font-weight: bolder;
-  border: #9e8770 solid 2px;
+  border: #9e8770 solid 1.2px;
   border-radius: 5px;
-  color: #746352;
-  background-color: #e8b88b;
+  color: #5a4d3f;
+  background-color: #fab97c;
 }
 .home-links:hover {
   border-radius: 5px;
@@ -332,8 +331,10 @@ hr {
   z-index: 2;
 }
 
-
 @media (max-width: 768px) {
+  .logo-container {
+    flex-direction: column;
+  }
   .content {
     margin-left: 0;
   }
@@ -377,7 +378,6 @@ hr {
     bottom: 0;
     z-index: 998;
   }
-
   .close-sidebar {
     position: absolute;
     top: 10px;
@@ -390,22 +390,17 @@ hr {
   .home-links {
     height: 50px;
     width: 140px;
-    margin: 40px;
+    margin: 10px;
     padding: 5px 20px;
     text-align: center;
     font-size: large;
     font-weight: bolder;
-    border: #efb986 solid 2px;
     border-radius: 5px;
-    color: #e8b88b;
-    background-color: #946335;
     opacity: 1 !important;
   }
-
   .post-content-h1 {
     font-size: 3rem;
   }
-
   .post-content {
     margin: 10px 5vw;
     text-shadow: 2px 2px 4px rgba(57, 31, 3, 0.413);

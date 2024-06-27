@@ -22,7 +22,7 @@ export default function Main() {
       >
         <div className="logo-container">
           <img className="logo" src={blogScape} alt="blog-scape" />
-          <h1 className="fw-bold blog-title">My Blog</h1>
+          <h1 className="fw-bold blog-title text-center">My Blog</h1>
         </div>
         <div className="pt-5 d-flex flex-row">
           <NavLink to={"./home"} className="home-links nav-link">

@@ -1,6 +1,6 @@
 const config = {
     serviceUrl: "http://localhost:8081"
-    // serviceUrl: "${serviceUrl}"
+    // serviceUrl: "https://blog-spring-server.onrender.com"
 };
 
 export default config;
